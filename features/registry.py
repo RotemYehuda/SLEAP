@@ -6,6 +6,7 @@ import numpy as np
 
 from params import (NODE_IDX_HEAD, NODE_IDX_THORAX, NODE_IDX_ABDOMEN,
                     NODE_IDX_L_WING, NODE_IDX_R_WING,
+                    NODE_IDX_L_FRONT_LEG, NODE_IDX_R_FRONT_LEG,
                     PXPERMM, FPS)
 
 from features.appearance import (compute_xy, compute_ab, compute_dab,
@@ -42,6 +43,9 @@ from features.wing_appearance import (compute_wing_angles,compute_mean_wing_angl
 from features.wing_movement import (compute_dminmax_wing_angle, compute_minmax_absdwing_angle,
                                     compute_dwing_angle_diff, compute_dwing_angle_imbalance,
                                     compute_minmax_dwing_angle_in, compute_minmax_dwing_angle_out)
+
+from features.leg_appearance import (compute_front_leg_angles, compute_front_leg_angle_diff, compute_front_leg_extension)
+from features.leg_movement import (compute_dfront_leg_angles, compute_front_leg_abs_angular_speed)
 
 
 @dataclass
@@ -813,6 +817,70 @@ REGISTRY = {
         enabled=True,
         save_mode="scalar",
         params={"fps": FPS},
+    ),
+
+    # Front-leg kinematics
+    "front_leg_angles": FeatureSpec(
+        func=compute_front_leg_angles,
+        requires=["theta"],
+        outputs=["front_leg_L_ang", "front_leg_R_ang"],
+        units={
+            "front_leg_L_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "front_leg_R_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+        },
+        enabled=True,
+        save_mode="scalar",
+        params={"ctr_ind": NODE_IDX_THORAX,
+                "left_front_ind": NODE_IDX_L_FRONT_LEG,
+                "right_front_ind": NODE_IDX_R_FRONT_LEG},
+    ),
+    "front_leg_angle_diff": FeatureSpec(
+        func=compute_front_leg_angle_diff,
+        requires=["front_leg_angles"],
+        outputs=["front_leg_angle_diff"],
+        units={
+            "front_leg_angle_diff": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+        },
+        enabled=True,
+        save_mode="scalar",
+    ),
+    "dfront_leg_angles": FeatureSpec(
+        func=compute_dfront_leg_angles,
+        requires=["front_leg_angles"],
+        outputs=["dfront_leg_L", "dfront_leg_R"],
+        units={
+            "dfront_leg_L": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "dfront_leg_R": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+        },
+        enabled=True,
+        save_mode="scalar",
+        params={"fps": FPS},
+    ),
+    "front_leg_abs_angular_speed": FeatureSpec(
+        func=compute_front_leg_abs_angular_speed,
+        requires=["dfront_leg_angles"],
+        outputs=["abs_dfront_leg_L", "abs_dfront_leg_R"],
+        units={
+            "abs_dfront_leg_L": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "abs_dfront_leg_R": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+        },
+        enabled=True,
+        save_mode="scalar",
+    ),
+    "front_leg_extension": FeatureSpec(
+        func=compute_front_leg_extension,
+        requires=[],
+        outputs=["front_leg_ext_L", "front_leg_ext_R"],
+        units={
+            "front_leg_ext_L": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
+            "front_leg_ext_R": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
+        },
+        enabled=True,
+        save_mode="scalar",
+        params={"ctr_ind": NODE_IDX_THORAX,
+                "left_front_ind": NODE_IDX_L_FRONT_LEG,
+                "right_front_ind": NODE_IDX_R_FRONT_LEG,
+                "pxpermm": PXPERMM},
     ),
 }
 
