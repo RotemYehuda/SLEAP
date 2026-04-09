@@ -63,13 +63,49 @@ def jaaba_units_from_h5_dataset(ds, default_quantity="other"):
 
     # map "quantity" to (num, den) for JAABA
     mapping = {
-        "distance": ("mm", None),
-        "velocity": ("mm", "s"),
-        "acceleration": ("mm", "s^2"),
-        "angle": ("rad", None),
-        "rot_speed": ("rad", "s"),
-        "time": ("s", None),
-        "other": ("unit", None),
+        # --- existing ---
+        "distance":                     ("mm",   None),
+        "velocity":                     ("mm",   "s"),
+        "acceleration":                 ("mm",   "s^2"),
+        "angle":                        ("rad",  None),
+        "rot_speed":                    ("rad",  "s"),
+        "time":                         ("s",    None),
+        "other":                        ("unit", None),
+        # --- position / distance ---
+        "position":                     ("mm",   None),
+        "distance_change_rate":         ("mm",   "s"),
+        "area":                         ("mm^2", None),
+        "area_change_rate":             ("mm^2", "s"),
+        # --- orientation / angle ---
+        "orientation":                  ("rad",  None),
+        "velocity_direction":           ("rad",  None),
+        "sideways_angle":               ("rad",  None),
+        "yaw_angle":                    ("rad",  None),
+        "absolute_yaw_angle":           ("rad",  None),
+        # --- angular rates ---
+        "angular_velocity":             ("rad",  "s"),
+        "angular_speed":                ("rad",  "s"),
+        "angle_change_rate":            ("rad",  "s"),
+        "velocity_direction_change_rate": ("rad", "s"),
+        # --- linear speeds / velocities ---
+        "speed":                        ("mm",   "s"),
+        "lateral_velocity_cor":         ("mm",   "s"),
+        "lateral_speed_cor":            ("mm",   "s"),
+        "forward_velocity_cor":         ("mm",   "s"),
+        "forward_velocity_ctr":         ("mm",   "s"),
+        "forward_velocity_tail":        ("mm",   "s"),
+        "sideways_velocity_ctr":        ("mm",   "s"),
+        "sideways_velocity_tail":       ("mm",   "s"),
+        "signed_lateral_velocity_cor":  ("mm",   "s"),
+        "a_change_rate":                ("mm",   "s"),
+        "b_change_rate":                ("mm",   "s"),
+        # --- dimensionless ---
+        "eccentricity":                 ("unit", None),
+        "eccentricity_change_rate":     ("unit", "s"),
+        "fractional_offset":            ("unit", None),
+        "turn_sign":                    ("unit", None),
+        "count":                        ("unit", None),
+        "index":                        ("unit", None),
     }
 
     num_str, den_str = mapping.get(str(quantity), ("unit", None))

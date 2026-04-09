@@ -13,19 +13,20 @@ def compute_xy(tracks, features=None, ctr_ind=1, pxpermm=10.5, **kwargs):
 
 def compute_ab(tracks, features=None, fwd_ind=0, abdomen_idx = 2, left_wing_idx=3, right_wing_idx=4, pxpermm=10.5, **kwargs):
     """
-    Compute body semi-axes.
+    Compute body axis quarter-lengths.
 
-    a_mm : major semi-axis (mm)
-        Half the distance from head (fwd_ind) to abdomen (abdomen_idx),
-        divided by 2. Represents half the body length.
+    a_mm : quarter body length (mm)
+        One quarter of the head-to-abdomen distance (i.e. distance / 4 / pxpermm).
+        The body ellipse semi-major axis = 2*a_mm.
+        The nose is at centroid + 2*a_mm along theta,
+        the tail at centroid - 2*a_mm along theta.
 
-    b_mm : minor semi-axis (mm)
-        Half the distance from left wing tip to right wing tip,
-        divided by 2. Represents half the body width.
+    b_mm : quarter wingspan (mm)
+        One quarter of the left-to-right wing-tip distance.
+        The body ellipse semi-minor axis = 2*b_mm.
 
-    Note: the full major axis = 2*a_mm, full minor axis = 2*b_mm.
-    The nose is at centroid + 2*a_mm along theta,
-    the tail at centroid - 2*a_mm along theta.
+    Note: semi-major axis = 2*a_mm, semi-minor axis = 2*b_mm,
+          full major axis = 4*a_mm, full minor axis = 4*b_mm.
     """
     a = (np.sqrt(np.sum((tracks[:,fwd_ind,:,:] - tracks[:,abdomen_idx,:,:])**2, axis=1)) / 4).astype(np.float64)
     b = (np.sqrt(np.sum((tracks[:,left_wing_idx,:,:] - tracks[:,right_wing_idx,:,:])**2, axis=1)) / 4).astype(np.float64)

@@ -135,7 +135,7 @@ def save_trx(features_source: Path, trx_dest: Path, timestamps: np.ndarray | Non
             y_mm = y / float(pxpermm)
             a_mm = a / float(pxpermm)
             b_mm = b / float(pxpermm)
-            theta_mm = theta
+            theta_mm = theta  # heading in radians; no unit conversion (angles are scale-invariant)
 
             xwingl = left_wing_pos[:, 0]
             ywingl = left_wing_pos[:, 1]

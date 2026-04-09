@@ -71,12 +71,17 @@ def validate_registry(registry: Dict[str, FeatureSpec]) -> None:
 
     for name, spec in registry.items():
 
-        # Check 1: valid requires keys (unchanged)
+        # Check 1: valid requires keys; also catch enabled→disabled dependency chains
         for dep in spec.requires:
             if dep not in registry:
                 errors.append(
                     f"  '{name}' requires '{dep}', which is not a registered key.\n"
                     f"    Available keys: {sorted(registry.keys())}"
+                )
+            elif spec.enabled and not registry[dep].enabled:
+                errors.append(
+                    f"  '{name}' (enabled) requires '{dep}', which is disabled. "
+                    f"Either disable '{name}' or re-enable '{dep}'."
                 )
 
         # Check 2: no duplicate output keys
