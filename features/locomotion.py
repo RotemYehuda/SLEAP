@@ -232,8 +232,8 @@ def _point_velocity(tracks, features, fps, lateral, use_tail):
 
     if use_tail:
         a_mm = features["a_mm"]
-        x_mm = x_mm - 2 * np.cos(-theta) * a_mm
-        y_mm = y_mm - 2 * np.sin(-theta) * a_mm
+        x_mm = x_mm - 2 * np.cos(theta) * a_mm
+        y_mm = y_mm - 2 * np.sin(theta) * a_mm
 
     dx = np.diff(x_mm, axis=0)
     dy = np.diff(y_mm, axis=0)

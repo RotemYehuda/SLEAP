@@ -177,7 +177,7 @@ def make_expt_dataset(
     tracks, node_names, track_names = load_tracks(h5_file)
     if tracks.ndim != 4:
         raise ValueError(
-            "ValueError: not enough values to unpack"
+            f"Expected tracks with shape (time, joints, 2, fly). Got: {tracks.shape}"
         )
 
     n_frames, n_nodes, _, n_flies = tracks.shape
