@@ -1,3 +1,5 @@
+# Central registry: 40+ FeatureSpec entries, dependency resolver, validator
+
 from typing import Callable, List, Dict, Literal
 from dataclasses import dataclass, field
 import numpy as np
@@ -148,7 +150,7 @@ REGISTRY = {
         units={},
         enabled=True,
         save_mode="none",
-        params={"cte_ind": NODE_IDX_THORAX, "pxpermm": PXPERMM},
+        params={"ctr_ind": NODE_IDX_THORAX, "pxpermm": PXPERMM},
     ),
     "body_scale": FeatureSpec(
         func=compute_ab,
@@ -221,7 +223,7 @@ REGISTRY = {
         func=compute_nose_tail,
         requires=["body_scale", "theta", "xy_mm"],
         outputs=[],
-        intermediates=["x_nose_mm", "nose_y_mm", "tail_x_mm", "tail_y_mm"],
+        intermediates=["nose_x_mm", "nose_y_mm", "tail_x_mm", "tail_y_mm"],
         units={
             "nose_x_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
             "nose_y_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},

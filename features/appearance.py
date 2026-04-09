@@ -1,3 +1,5 @@
+# Body geometry (position, axes, area, eccentricity)
+
 import numpy as np
 
 def compute_xy(tracks, features=None, ctr_ind=1, pxpermm=10.5, **kwargs):

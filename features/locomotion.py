@@ -1,3 +1,5 @@
+# Movement dynamics (heading, velocity, angular rate)
+
 import numpy as np
 
 # heading relative to x-axis in radians [-pi, pi]
@@ -230,8 +232,8 @@ def _point_velocity(tracks, features, fps, lateral, use_tail):
 
     if use_tail:
         a_mm = features["a_mm"]
-        x_mm = x_mm + 2 * np.cos(-theta) * a_mm
-        y_mm = y_mm + 2 * np.sin(-theta) * a_mm
+        x_mm = x_mm - 2 * np.cos(-theta) * a_mm
+        y_mm = y_mm - 2 * np.sin(-theta) * a_mm
 
     dx = np.diff(x_mm, axis=0)
     dy = np.diff(y_mm, axis=0)
@@ -303,8 +305,8 @@ def _point_speed(tracks, features, fps, use_nose=False, use_tail=False):
     if use_nose or use_tail:
         a_mm  = features["a_mm"]
         sign  = 1.0 if use_nose else -1.0
-        x_mm  = x_mm + 2 * np.cos(sign * theta) * a_mm
-        y_mm  = y_mm + 2 * np.sin(sign * theta) * a_mm
+        x_mm  = x_mm + sign * 2 * np.cos(theta) * a_mm
+        y_mm  = y_mm + sign * 2 * np.sin(theta) * a_mm
 
     dx = np.diff(x_mm, axis=0)   # (T-1, n_flies)
     dy = np.diff(y_mm, axis=0)

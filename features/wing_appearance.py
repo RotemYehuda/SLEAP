@@ -1,3 +1,5 @@
+# Wing angles in egocentric frame
+
 import numpy as np
 
 def compute_wing_angles(tracks, features=None, ctr_ind=1, left_ind=3, right_ind=4, **kwargs):

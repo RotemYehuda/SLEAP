@@ -1,3 +1,5 @@
+# Signal processing (fill_missing, egocentric normalization, signed_angle)
+
 import numpy as np
 import pandas as pd
 
@@ -115,13 +117,17 @@ def signed_angle(a, b):
         b: Array of shape (n, 2).
 
     Returns:
-        The signed angles in degrees in vector of shape (n, 2).
+        The signed angles in degrees in vector of shape (n, ).
 
         This angle is positive if a is rotated clockwise to align to b and negative if
         this rotation is counter-clockwise.
     """
-    a = a / np.linalg.norm(a, axis=1, keepdims=True)
-    b = b / np.linalg.norm(b, axis=1, keepdims=True)
+    norm_a = np.linalg.norm(a, axis=1, keepdims=True)
+    norm_b = np.linalg.norm(b, axis=1, keepdims=True)
+
+    a = np.where(norm_a > 0, a / norm_a, 0.0)
+    b = np.where(norm_b > 0, b / norm_b, 0.0)
+
     theta = np.arccos(np.around(np.sum(a * b, axis=1), decimals=4))
     # cross = np.cross(a, b, axis=1)
     cross = a[:, 0] * b[:, 1] - a[:, 1] * b[:, 0]

@@ -1,3 +1,5 @@
+# Pairwise interactions (distances, bearing angles)
+
 import numpy as np
 
 

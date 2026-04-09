@@ -1,9 +1,12 @@
+# Core feature orchestration + HDF5 writing
+
 import h5py
 import numpy as np
 from pathlib import Path
 from io_utils import load_tracks, encode_hdf5_strings
 from features.registry import compute_item, get_units_for_key, REGISTRY
 from params import FPS, PXPERMM, NODE_NAMES_EXPECTED
+import warnings as _warnings
 
 _EXPECTED_NODE_ROLES = {
     "fwd_ind":        ("fwd_ind",  "head"),
@@ -88,7 +91,6 @@ def _validate_node_indices(node_names: list, ctr_ind: int, fwd_ind: int) -> None
                     f"got '{actual_name}'"
                 )
     if warnings:
-        import warnings as _warnings
         _warnings.warn(
             "Node names at expected indices do not match defaults. "
             "Verify that ctr_ind/fwd_ind are set correctly for this skeleton.\n"
@@ -133,6 +135,8 @@ def make_expt_dataset(
     """Gather experiment data into a single file.
 
     Args:
+        pxpermm:
+        fps:
         expt_folder: Full absolute path to the experiment folder.
         h5_file: Path to a SLEAP HDF5 analysis file ('*.analysis.h5').
         output_path: Path to save the resulting dataset to. Can be specified as a folder
@@ -171,10 +175,13 @@ def make_expt_dataset(
 
     # Load tracking
     tracks, node_names, track_names = load_tracks(h5_file)
-    n_frames, n_nodes, _, n_flies = tracks.shape
+    if tracks.ndim != 4:
+        raise ValueError(
+            "ValueError: not enough values to unpack"
+        )
 
-    # Basic validation
-    if tracks.ndim != 4 or tracks.shape[2] != 2:
+    n_frames, n_nodes, _, n_flies = tracks.shape
+    if tracks.shape[2] != 2:
         raise ValueError(
             f"Expected tracks with shape (time, joints, 2, fly). Got: {tracks.shape}"
         )

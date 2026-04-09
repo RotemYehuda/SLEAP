@@ -1,3 +1,5 @@
+# Config loader; exposes constants globally on import
+
 from pathlib import Path
 import yaml
 

@@ -1,3 +1,5 @@
+# Wing angle dynamics (rates of change)
+
 import numpy as np
 
 def compute_dminmax_wing_angle(tracks, features=None, fps=30, **kwargs):
@@ -56,7 +58,8 @@ def compute_dwing_angle_imbalance(tracks, features=None, fps=30, **kwargs):
     result = dimbalancel.copy()
 
     # Where right imbalance is dominant (wingR + wingL > 0)
-    right_dominant = imbalancer[:-1] > imbalancel[:-1]   # i.e. wingR+wingL > 0
+    # right_dominant = imbalancer[:-1] > imbalancel[:-1]   # i.e. wingR+wingL > 0
+    right_dominant = imbalancer[:-1] > 0
     result[right_dominant] = dimbalancer[right_dominant]
 
     result = result * fps

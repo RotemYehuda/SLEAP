@@ -1,3 +1,5 @@
+# Export trajectory struct → trx.mat
+
 from pathlib import Path
 import h5py
 import numpy as np
@@ -80,7 +82,9 @@ def save_trx(features_source: Path, trx_dest: Path, timestamps: np.ndarray | Non
 
         # Try to infer movie file in the experiment folder
         expt_dir = features_h5.parent
-        movie_files = list(expt_dir.glob("movie.*"))
+        movie_files = sorted(expt_dir.glob("movie.*"))
+        if len(movie_files) > 1:
+            raise ValueError(f"Multiple movie files found in {expt_dir}: {movie_files}")
         movie_path = movie_files[0] if movie_files else None
 
         trx_list = []
@@ -145,7 +149,6 @@ def save_trx(features_source: Path, trx_dest: Path, timestamps: np.ndarray | Non
                                             "pxpermm": float(pxpermm),
                                             "id": int(i + 1),
                                             "label": label_name,
-                                            "firstframe": 1.0,
                                             "firstframe": 1.0,
                                             "off": 0.0,
                                             "nframes": float(nframes),

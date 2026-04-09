@@ -1,3 +1,5 @@
+# Stage 1: Split multi-arena recordings
+
 import sys
 from tkfilebrowser import askopendirnames
 import tkinter as tk

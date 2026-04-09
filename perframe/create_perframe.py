@@ -1,3 +1,5 @@
+# Export scalar features → perframe/*.mat
+
 import numpy as np
 import h5py
 from perframe.ds_utils import iter_datasets, safe_savemat
@@ -99,10 +101,11 @@ def jaaba_data_cell(values_2d):
         v = values_2d[:, fly]
 
         # JAABA usually expects doubles
-        if np.issubdtype(v.dtype, np.floating):
-            v_out = v.astype(np.float64, copy=False)
-        else:
-            v_out = v.astype(np.float64, copy=False)
+        v_out = v.astype(np.float64, copy=False)
+        # if np.issubdtype(v.dtype, np.floating):
+        #     v_out = v.astype(np.float64, copy=False)
+        # else:
+        #     v_out = v.astype(np.float64, copy=False)
 
         data_cell[0, fly] = v_out.reshape(1, -1)
 

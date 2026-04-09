@@ -1,3 +1,5 @@
+# ENTRY POINT (Stage 3) — GUI, drives full pipeline
+
 import tkinter as tk
 from pathlib import Path
 from tkfilebrowser import askopendirnames

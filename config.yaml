@@ -1,4 +1,5 @@
 # SleapCode configuration
+# All paths, calibration constants, skeleton config
 
 base_path: "D:/Galit'sLab Dropbox/Galit'sLabteamfolder/Rotem"
 arena_parent_dir: "W:/Rotem/analysisData"

@@ -1,3 +1,5 @@
+# Stage 2: Run SLEAP, convert .slp → .analysis.h5
+
 import sys
 from pathlib import Path
 import subprocess

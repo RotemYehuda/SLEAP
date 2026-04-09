@@ -101,6 +101,8 @@ scipy
 pyyaml
 tkinter          # GUI file picker (standard library)
 tkfilebrowser    # pip install tkfilebrowser
+
+pip install numpy h5py pandas scipy pyyaml tkfilebrowser
 ```
 
 **SLEAP inference** (`split_and_inference/run_sleap_inference.py`):

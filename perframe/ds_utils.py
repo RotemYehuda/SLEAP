@@ -1,3 +1,5 @@
+# HDF5 iteration + atomic MAT file writing
+
 from pathlib import Path
 import h5py
 import scipy.io

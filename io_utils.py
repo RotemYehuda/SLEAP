@@ -1,3 +1,5 @@
+# SLEAP HDF5 loading
+
 import numpy as np
 import h5py
 
@@ -30,12 +32,12 @@ def load_tracks(track_file):
         )
 
     last_fidx = int(valid_frames[-1])
-    tracks = tracks[:last_fidx]
+    tracks = tracks[:last_fidx + 1]
 
     return tracks, node_names, track_names
 
 
-def encode_hdf5_strings(S: list[str]) -> list[np.bytes_]:
+def encode_hdf5_strings(s: list[str]) -> list[np.bytes_]:
     """Encode a list of strings as numpy bytes for h5py compatibility.
 
     h5py requires strings to be encoded as numpy bytes_ objects (not Python
@@ -43,9 +45,9 @@ def encode_hdf5_strings(S: list[str]) -> list[np.bytes_]:
     Python strings causes a TypeError in some h5py versions.
 
     Args:
-        S: List of strings to encode.
+        s: List of strings to encode.
 
     Returns:
         List of np.bytes_ objects suitable for h5py.create_dataset().
     """
-    return [np.bytes_(x) for x in S]
+    return [np.bytes_(x) for x in s]

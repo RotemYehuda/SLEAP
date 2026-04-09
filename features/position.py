@@ -1,3 +1,5 @@
+# Velocity direction (phi, yaw)
+
 import numpy as np
 
 # velocity direction
@@ -58,8 +60,6 @@ def compute_yaw(tracks, features=None, **kwargs):
 
     0        = moving straight forward
     +pi/2    = moving purely left (sideways)
-    +-pi     = moving straight backward
-    +-pi     = moving straight backward
     +-pi     = moving straight backward
 
     Unsigned/folded version is phisideways.
