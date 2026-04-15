@@ -8,15 +8,6 @@ from features.registry import compute_item, get_units_for_key, REGISTRY
 from params import FPS, PXPERMM, NODE_NAMES_EXPECTED
 import warnings as _warnings
 
-_EXPECTED_NODE_ROLES = {
-    "fwd_ind":        ("fwd_ind",  "head"),
-    "ctr_ind":        ("ctr_ind",  "thorax"),
-    "abdomen_index":  (2,          "abdomen"),
-    "left_wing_index":(3,          "left_wing"),
-    "right_wing_index":(4,         "right_wing"),
-}
-
-
 def _validate_node_indices(node_names: list, ctr_ind: int, fwd_ind: int) -> None:
     """Validate that node indices are consistent with the loaded node_names.
 
@@ -175,25 +166,11 @@ def make_expt_dataset(
 
     # Load tracking
     tracks, node_names, track_names = load_tracks(h5_file)
-    if tracks.ndim != 4:
-        raise ValueError(
-            f"Expected tracks with shape (time, joints, 2, fly). Got: {tracks.shape}"
-        )
-
     n_frames, n_nodes, _, n_flies = tracks.shape
-    if tracks.shape[2] != 2:
-        raise ValueError(
-            f"Expected tracks with shape (time, joints, 2, fly). Got: {tracks.shape}"
-        )
 
     if n_flies < 1:
         raise ValueError("No tracked individuals found (n_flies < 1).")
 
-    # Ensure node_names length matches nodes axis
-    if len(node_names) != n_nodes:
-        raise ValueError(
-            f"node_names length ({len(node_names)}) does not match nodes axis ({n_nodes})."
-        )
     _validate_node_indices(node_names, ctr_ind=ctr_ind, fwd_ind=fwd_ind)
 
     # Ensure output directory exists

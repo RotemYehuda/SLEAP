@@ -17,9 +17,23 @@ def load_tracks(track_file):
     """
     with h5py.File(track_file, "r") as f:
         tracks = np.transpose(f["tracks"][:])  # (frame, joint, xy, fly)
+        track_names = f["track_names"][:]
+
+        if tracks.ndim != 4:
+            raise ValueError(
+                f"Expected tracks with shape (time, joints, 2, fly). Got: {tracks.shape}"
+            )
+        if tracks.shape[2] != 2:
+            raise ValueError(
+                f"Expected tracks with shape (time, joints, 2, fly). Got: {tracks.shape}"
+            )
+
         node_names = f["node_names"][:]
         node_names = [x.decode() for x in node_names]
-        track_names = f["track_names"][:]
+        if len(node_names) != tracks.shape[1]:
+            raise ValueError(
+                f"node_names length ({len(node_names)}) does not match joints axis ({tracks.shape[1]})."
+            )
 
     valid_frames = np.argwhere(
         np.isfinite(tracks.reshape(len(tracks), -1)).any(axis=-1)

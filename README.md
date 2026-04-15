@@ -3,6 +3,14 @@
 A Python pipeline that converts [SLEAP](https://sleap.ai) pose-tracking outputs into
 behavioral features and exports them in formats compatible with
 [JAABA](https://jaaba.sourceforge.net) (a MATLAB-based behavior classifier).
+---
+  `conda create -n sleapcode python=3.9`  
+  `conda activate sleapcode`  
+  `pip install numpy h5py scipy pandas pyyaml tkfilebrowser`
+
+OR
+
+`pip install -r requirements.txt`
 
 ---
 
