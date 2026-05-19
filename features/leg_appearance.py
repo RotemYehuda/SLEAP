@@ -42,7 +42,7 @@ def compute_front_leg_angle_diff(tracks, features=None, **kwargs):
     """
     return {
         "front_leg_angle_diff": (
-            features["front_leg_R"] - features["front_leg_L"]
+            features["front_leg_R_ang"] - features["front_leg_L_ang"]
         ).astype(np.float64),
     }
 

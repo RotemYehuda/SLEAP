@@ -16,10 +16,10 @@ def compute_dfront_leg_angles(tracks, features=None, fps=30, **kwargs):
     """
     return {
         "dfront_leg_L": (
-            np.diff(features["front_leg_L"], axis=0, prepend=np.nan) * fps
+            np.diff(features["front_leg_L_ang"], axis=0, prepend=np.nan) * fps
         ).astype(np.float64),
         "dfront_leg_R": (
-            np.diff(features["front_leg_R"], axis=0, prepend=np.nan) * fps
+            np.diff(features["front_leg_R_ang"], axis=0, prepend=np.nan) * fps
         ).astype(np.float64),
     }
 
