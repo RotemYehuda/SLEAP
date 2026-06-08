@@ -1,0 +1,6 @@
+numpy
+h5py
+scipy
+pandas
+pyyaml
+tkfilebrowser
