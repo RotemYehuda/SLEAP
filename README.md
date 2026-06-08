@@ -134,9 +134,8 @@ base_path: "D:/path/to/your/data"
 # Parent directory for per-arena analysis folders.
 arena_parent_dir: "W:/path/to/analysisData"
 
-# SLEAP centroid and instance model paths (used by run_sleap_inference.py).
-centroid_model:  "W:/path/to/centroid_model"
-instance_model:  "W:/path/to/instance_model"
+# SLEAP bottom-up model path (used by run_sleap_inference.py).
+bottomup_model:  "W:/path/to/bottomup_model"
 
 # Name of the SLEAP output file produced by inference.
 sleap_output_name: "inference.slp"

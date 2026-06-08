@@ -32,7 +32,7 @@ def find_movie(arena_dir):
 
 def run_sleap(movie_path, output_path):
     cmd = [
-        "sleap-track",
+        "sleap", "track",
         str(movie_path),
         "--model", str(BOTTOMUP_MODEL),
         "--output", str(output_path),
@@ -45,12 +45,14 @@ def run_sleap(movie_path, output_path):
         "--tracking.track_window", "5",
         "--tracking.tracker", "flowmaxtracks",
     ]
+    print("Running inference:")
+    print(" ".join(cmd))
     subprocess.run(cmd, check=True)
 
 
 def convert_to_h5(slp_path):
     cmd = [
-        "sleap-convert",
+        "sleap", "convert",
         str(slp_path),
         "--format", "analysis"
     ]
@@ -122,16 +124,20 @@ def main():
             continue
 
         output = arena_dir / OUTPUT_NAME
-        if output.exists():
-            print("  Inference already exists, skipping")
-            continue
+        analysis_output = arena_dir / (OUTPUT_NAME + ".analysis.h5")
 
         try:
-            run_sleap(movie, output)
-            print("  Inference done")
+            if output.exists():
+                print("  Inference (.slp) already exists, skipping sleap-track")
+            else:
+                run_sleap(movie, output)
+                print("  Inference done")
 
-            convert_to_h5(output)
-            print("  H5 conversion done")
+            if analysis_output.exists():
+                print("  Analysis (.analysis.h5) already exists, skipping sleap-convert")
+            else:
+                convert_to_h5(output)
+                print("  H5 conversion done")
         except subprocess.CalledProcessError as e:
             print(f"  ERROR: {e}")
 
