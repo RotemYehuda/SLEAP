@@ -7,15 +7,18 @@ import subprocess
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from params import ARENA_PARENT_DIR as _ARENA_PARENT_DIR
-from params import CENTROID_MODEL   as _CENTROID_MODEL
-from params import INSTANCE_MODEL   as _INSTANCE_MODEL
+# from params import CENTROID_MODEL   as _CENTROID_MODEL
+# from params import INSTANCE_MODEL   as _INSTANCE_MODEL
+from params import BOTTOMUP_MODEL   as _BOTTOMUP_MODEL
 from params import SLEAP_OUTPUT_NAME
 
 VIDEO_EXTENSIONS = [".avi", ".mp4", ".mov", ".mkv"]
 
 ARENA_PARENT_DIR = Path(_ARENA_PARENT_DIR) if _ARENA_PARENT_DIR else Path(".")
-CENTROID_MODEL   = Path(_CENTROID_MODEL)   if _CENTROID_MODEL   else None
-INSTANCE_MODEL   = Path(_INSTANCE_MODEL)   if _INSTANCE_MODEL   else None
+BOTTOMUP_MODEL   = Path(_BOTTOMUP_MODEL)   if _BOTTOMUP_MODEL   else None
+
+# CENTROID_MODEL   = Path(_CENTROID_MODEL)   if _CENTROID_MODEL   else None
+# INSTANCE_MODEL   = Path(_INSTANCE_MODEL)   if _INSTANCE_MODEL   else None
 
 OUTPUT_NAME = SLEAP_OUTPUT_NAME
 
@@ -31,8 +34,7 @@ def run_sleap(movie_path, output_path):
     cmd = [
         "sleap-track",
         str(movie_path),
-        "--model", str(CENTROID_MODEL),
-        "--model", str(INSTANCE_MODEL),
+        "--model", str(BOTTOMUP_MODEL),
         "--output", str(output_path),
         "--tracking.match", "hungarian",
         "--tracking.max_tracking", "1",
@@ -74,15 +76,19 @@ def parse_selection(selection, max_index):
 
 
 def main():
-    if CENTROID_MODEL is None or not CENTROID_MODEL.exists():
-        print(f"ERROR: CENTROID_MODEL is not configured or does not exist: {CENTROID_MODEL}")
-        print("Please set 'centroid_model' in config.yaml (or CENTROID_MODEL in params.py).")
-        return
-    if INSTANCE_MODEL is None or not INSTANCE_MODEL.exists():
-        print(f"ERROR: INSTANCE_MODEL is not configured or does not exist: {INSTANCE_MODEL}")
-        print("Please set 'instance_model' in config.yaml (or INSTANCE_MODEL in params.py).")
-        return
+    # if CENTROID_MODEL is None or not CENTROID_MODEL.exists():
+    #     print(f"ERROR: CENTROID_MODEL is not configured or does not exist: {CENTROID_MODEL}")
+    #     print("Please set 'centroid_model' in config.yaml (or CENTROID_MODEL in params.py).")
+    #     return
+    # if INSTANCE_MODEL is None or not INSTANCE_MODEL.exists():
+    #     print(f"ERROR: INSTANCE_MODEL is not configured or does not exist: {INSTANCE_MODEL}")
+    #     print("Please set 'instance_model' in config.yaml (or INSTANCE_MODEL in params.py).")
+    #     return
 
+    if BOTTOMUP_MODEL is None or not BOTTOMUP_MODEL.exists():
+        print(f"ERROR: BOTTOMUP_MODEL is not configured or does not exist: {BOTTOMUP_MODEL}")
+        print("Please set 'bottomup_model' in config.yaml (or BOTTOMUP_MODEL in params.py).")
+        return
     arena_dirs = sorted(
         [d for d in ARENA_PARENT_DIR.iterdir() if d.is_dir()]
     )

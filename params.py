@@ -19,8 +19,9 @@ BASE_PATH = _config.get("base_path", "")
 
 # SLEAP inference parent directory (used by run_sleap_inference.py only).
 ARENA_PARENT_DIR = _config.get("arena_parent_dir", "")
-CENTROID_MODEL    = _config.get("centroid_model", "")
-INSTANCE_MODEL    = _config.get("instance_model", "")
+# CENTROID_MODEL    = _config.get("centroid_model", "")
+# INSTANCE_MODEL    = _config.get("instance_model", "")
+BOTTOMUP_MODEL    = _config.get("bottomup_model", "")
 SLEAP_OUTPUT_NAME = _config.get("sleap_output_name", "inference.slp")
 
 # Calibration constants — used as defaults when not stored in the HDF5 file.
