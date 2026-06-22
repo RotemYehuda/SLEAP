@@ -32,29 +32,31 @@ def find_movie(arena_dir):
 
 def run_sleap(movie_path, output_path):
     cmd = [
-        "sleap", "track",
-        str(movie_path),
-        "--model", str(BOTTOMUP_MODEL),
-        "--output", str(output_path),
-        "--tracking.match", "hungarian",
-        "--tracking.max_tracking", "1",
-        "--tracking.max_tracks", "2",
-        "--tracking.target_instance_count", "2",
-        "--tracking.post_connect_single_breaks", "1",
-        "--tracking.similarity", "instance",
-        "--tracking.track_window", "5",
-        "--tracking.tracker", "flowmaxtracks",
+        "sleap-nn", "track",
+        "--data_path", str(movie_path),
+        "--model_paths", str(BOTTOMUP_MODEL),
+        "--output_path", str(output_path),
+        "--track_matching_method", "hungarian",
+        "--tracking",
+        "--max_tracks", "2",
+        "--tracking_target_instance_count", "2",
+        "--post_connect_single_breaks",
+        "--tracking_window_size", "5",
+        # "--use_flow",
+        "--features", "keypoints",
+        "--scoring_method", "oks",
     ]
     print("Running inference:")
     print(" ".join(cmd))
     subprocess.run(cmd, check=True)
 
 
-def convert_to_h5(slp_path):
+def convert_to_h5(slp_path, analysis_output):
     cmd = [
         "sleap", "convert",
-        str(slp_path),
-        "--format", "analysis"
+        "--input", str(slp_path),
+        "--output", str(analysis_output),
+        "--to", "analysis_h5",
     ]
 
     print("Converting to H5:")
@@ -115,8 +117,9 @@ def main():
 
     print(f"\nSelected {len(selected_dirs)} arenas\n")
 
-    for arena_dir in selected_dirs:
-        print(f"Processing {arena_dir.name}")
+    for movie_num, arena_dir in enumerate(selected_dirs, start=1):
+        print()
+        print(f"Processing movie {movie_num}/{len(selected_dirs)}: {arena_dir.name}")
 
         movie = find_movie(arena_dir)
         if movie is None:
@@ -124,7 +127,7 @@ def main():
             continue
 
         output = arena_dir / OUTPUT_NAME
-        analysis_output = arena_dir / (OUTPUT_NAME + ".analysis.h5")
+        analysis_output = output.with_suffix(".analysis.h5")
 
         try:
             if output.exists():
@@ -136,7 +139,7 @@ def main():
             if analysis_output.exists():
                 print("  Analysis (.analysis.h5) already exists, skipping sleap-convert")
             else:
-                convert_to_h5(output)
+                convert_to_h5(output, analysis_output)
                 print("  H5 conversion done")
         except subprocess.CalledProcessError as e:
             print(f"  ERROR: {e}")

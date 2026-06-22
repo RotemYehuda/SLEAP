@@ -9,7 +9,7 @@ bottomup_model:   "Q:/Rotem/DuoTrax/newCamModel/models/260607_200002.bottomup.n=
 sleap_output_name: "inference.slp"
 
 fps: 30
-pxpermm: 10.5
+pxpermm: 17.4
 
 # Expected SLEAP skeleton node names, in index order.
 node_names_expected:
