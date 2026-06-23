@@ -11,7 +11,7 @@ def compute_xy(tracks, features=None, ctr_ind=1, pxpermm=10.5, **kwargs):
         "y_mm": y.astype(np.float64),
     }
 
-def compute_ab(tracks, features=None, fwd_ind=0, abdomen_idx = 2, left_wing_idx=3, right_wing_idx=4, pxpermm=10.5, **kwargs):
+def compute_ab(tracks, features=None, fwd_ind=0, abdomen_idx=2, left_wing_idx=10, right_wing_idx=9, pxpermm=10.5, **kwargs):
     """
     Compute body axis quarter-lengths.
 

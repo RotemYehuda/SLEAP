@@ -1,7 +1,7 @@
 # SleapCode configuration
 # All paths, calibration constants, skeleton config
 
-base_path: "D:/Galit'sLab Dropbox/Galit'sLabteamfolder/Rotem"
+base_path: "Q:/Rotem/analysisData/newCam"
 arena_parent_dir: "Q:/Rotem/analysisData/newCam"
 #centroid_model:   "Q:/Rotem/analysisData/currentModel/250717_141735.centroid.n=1104"
 #instance_model:   "Q:/Rotem/analysisData/currentModel/250717_162759.centered_instance.n=1104"

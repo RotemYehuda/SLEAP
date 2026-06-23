@@ -2,7 +2,7 @@
 
 import numpy as np
 
-def compute_wing_angles(tracks, features=None, ctr_ind=1, left_ind=3, right_ind=4, **kwargs):
+def compute_wing_angles(tracks, features=None, ctr_ind=1, left_ind=10, right_ind=9, **kwargs):
     """
     Wing angles in the fly's egocentric frame (radians).
     """

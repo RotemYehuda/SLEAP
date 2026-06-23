@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def compute_front_leg_angles(tracks, features=None, ctr_ind=1, left_front_ind=5, right_front_ind=6, **kwargs,):
+def compute_front_leg_angles(tracks, features=None, ctr_ind=1, left_front_ind=4, right_front_ind=3, **kwargs,):
     """
     Egocentric angle of each front leg relative to the body axis (rad).
 
@@ -52,8 +52,8 @@ def compute_front_leg_extension(
     tracks,
     features=None,
     ctr_ind=1,
-    left_front_ind=5,
-    right_front_ind=6,
+    left_front_ind=4,
+    right_front_ind=3,
     pxpermm=10.5,
     **kwargs,
 ):

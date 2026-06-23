@@ -921,7 +921,7 @@ def compute_item(
     for dep in spec.requires:
         compute_item(dep, tracks, registry, computed, **kwargs)
 
-    merged_kwargs = {**kwargs, **spec.params}
+    merged_kwargs = {**spec.params, **kwargs}
     value = spec.func(tracks, features=computed, **merged_kwargs)
 
     if spec.outputs:

@@ -30,29 +30,23 @@ def _validate_node_indices(node_names: list, ctr_ind: int, fwd_ind: int) -> None
     """
     errors = []
 
-    # Check 1: full node list matches expected if configured
+    # Check 1: loaded node names match expected set (order-agnostic)
     if NODE_NAMES_EXPECTED is not None:
-        if list(node_names) != list(NODE_NAMES_EXPECTED):
+        if set(node_names) != set(NODE_NAMES_EXPECTED):
             errors.append(
-                f"Node names do not match expected skeleton:\n"
-                f"  Loaded:   {node_names}\n"
-                f"  Expected: {list(NODE_NAMES_EXPECTED)}\n"
-                f"  If the skeleton has changed, update 'node_names_expected' "
-                f"in config.yaml."
+                f"Loaded skeleton has unexpected node names.\n"
+                f"  Loaded:   {sorted(node_names)}\n"
+                f"  Expected: {sorted(NODE_NAMES_EXPECTED)}\n"
+                f"  Update 'node_names_expected' in config.yaml if the skeleton changed."
             )
-            # If the full list is wrong, skip per-index checks — they would
-            # produce redundant errors.
             raise ValueError("Node name validation failed:\n" + "\n".join(errors))
 
     n_nodes = len(node_names)
 
-    # Check 2: specific indices are in range
+    # Check 2: ctr_ind and fwd_ind are in range
     named_indices = {
         "fwd_ind": fwd_ind,
         "ctr_ind": ctr_ind,
-        "abdomen_index": 2,
-        "left_wing_index": 3,
-        "right_wing_index": 4,
     }
     for label, idx in named_indices.items():
         if idx >= n_nodes:
@@ -64,26 +58,20 @@ def _validate_node_indices(node_names: list, ctr_ind: int, fwd_ind: int) -> None
     if errors:
         raise ValueError("Node index validation failed:\n" + "\n".join(errors))
 
-    # Check 3: named indices point to expected node names (soft check)
+    # Check 3: ctr_ind/fwd_ind point to the expected nodes
     expected_at_index = {
-        fwd_ind:  "head",
-        ctr_ind:  "thorax",
-        2:        "abdomen",
-        3:        "L_wing",
-        4:        "R_wing",
+        fwd_ind: "head",
+        ctr_ind: "thorax",
     }
     warnings = []
     for idx, expected_name in expected_at_index.items():
-        if idx < n_nodes:
-            actual_name = node_names[idx]
-            if actual_name != expected_name:
-                warnings.append(
-                    f"  index {idx}: expected '{expected_name}', "
-                    f"got '{actual_name}'"
-                )
+        if idx < n_nodes and node_names[idx] != expected_name:
+            warnings.append(
+                f"  index {idx}: expected '{expected_name}', got '{node_names[idx]}'"
+            )
     if warnings:
         _warnings.warn(
-            "Node names at expected indices do not match defaults. "
+            "Node names at ctr_ind/fwd_ind do not match expected. "
             "Verify that ctr_ind/fwd_ind are set correctly for this skeleton.\n"
             + "\n".join(warnings),
             stacklevel=3,
@@ -171,6 +159,7 @@ def make_expt_dataset(
     if n_flies < 1:
         raise ValueError("No tracked individuals found (n_flies < 1).")
 
+    node_map = {name: idx for idx, name in enumerate(node_names)}
     _validate_node_indices(node_names, ctr_ind=ctr_ind, fwd_ind=fwd_ind)
 
     # Ensure output directory exists
@@ -182,14 +171,27 @@ def make_expt_dataset(
     computed = {}
     targets = [name for name, spec in REGISTRY.items() if spec.enabled]
 
+    node_kwargs = {
+        "ctr_ind":          node_map["thorax"],
+        "fwd_ind":          node_map["head"],
+        "abdomen_idx":      node_map["abdomen"],
+        "left_wing_idx":    node_map["L_wing"],    # compute_ab
+        "right_wing_idx":   node_map["R_wing"],    # compute_ab
+        "leftW_idx":        node_map["L_wing"],    # registry param alias
+        "rightW_idx":       node_map["R_wing"],    # registry param alias
+        "left_ind":         node_map["L_wing"],    # compute_wing_angles
+        "right_ind":        node_map["R_wing"],    # compute_wing_angles
+        "left_front_ind":   node_map["L_frontLeg"],
+        "right_front_ind":  node_map["R_frontLeg"],
+    }
+
     for name in targets:
         compute_item(
             name,
             tracks,
             REGISTRY,
             computed,
-            ctr_ind=ctr_ind,
-            fwd_ind=fwd_ind,
+            **node_kwargs,
         )
 
     # Write output HDF5
