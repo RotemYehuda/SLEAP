@@ -169,7 +169,7 @@ def make_expt_dataset(
     # Ensure output directory exists
     output_path.parent.mkdir(parents=True, exist_ok=True)
     expt_name = expt_path.name
-    print(f"\tCreating dataset for: {expt_name}")
+    print(f"\n\tCreating dataset for: {expt_name}")
     print(f"\tTracks: frames={n_frames}, nodes={n_nodes}, flies={n_flies}")
 
     computed = {}
@@ -249,6 +249,5 @@ def make_expt_dataset(
                 ds.attrs["quantity"] = u.get("quantity", "")
                 ds.attrs["unit_raw"] = u.get("unit_raw", "")
                 ds.attrs["unit_si"] = u.get("unit_si", "")
-                ds.attrs["scale_expr"] = u.get("scale_expr", "")
 
     return str(output_path)

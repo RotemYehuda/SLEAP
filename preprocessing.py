@@ -103,7 +103,7 @@ def fill_missing(Y, node_names, max_gap_by_node, kind="linear"):
 
 
 def print_node_summary(Y, Y_filled, mask, node_names):
-    print("  Node summary (missing / filled / left-NaN, % of frames):")
+    print("\n  Node summary (missing / filled / left-NaN, % of frames):")
     for node_i, node_name in enumerate(node_names):
         orig_missing = np.isnan(Y[:, node_i, :, :]).any(axis=1)
         filled = mask[:, node_i, :, :].any(axis=1)

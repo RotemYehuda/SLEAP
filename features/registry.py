@@ -179,8 +179,8 @@ REGISTRY = {
         requires=["body_scale"],
         outputs=["da", "db"],
         units={
-            "da": {"quantity": "a_change_rate", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
-            "db": {"quantity": "b_change_rate", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "da": {"quantity": "a_change_rate", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
+            "db": {"quantity": "b_change_rate", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -191,7 +191,7 @@ REGISTRY = {
         requires=["body_scale"],
         outputs=["area"],
         units={
-            "area": {"quantity": "area", "unit_raw": "mm^2", "unit_si": "mm^2", "scale_expr": "1"},
+            "area": {"quantity": "area", "unit_raw": "mm^2", "unit_si": "mm^2"},
         },
         enabled=True,
         save_mode="scalar"
@@ -201,7 +201,7 @@ REGISTRY = {
         requires=["area"],
         outputs=["darea"],
         units={
-            "darea": {"quantity": "area_change_rate", "unit_raw": "mm^2/sec", "unit_si": "mm^2/sec", "scale_expr": "1" },
+            "darea": {"quantity": "area_change_rate", "unit_raw": "mm^2/sec", "unit_si": "mm^2/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -212,7 +212,7 @@ REGISTRY = {
         requires=["body_scale"],
         outputs=["ecc"],
         units={
-            "ecc": {"quantity": "eccentricity", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "ecc": {"quantity": "eccentricity", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar"
@@ -222,7 +222,7 @@ REGISTRY = {
         requires=["eccentricity"],
         outputs=["decc"],
         units={
-            "decc": {"quantity": "eccentricity_change_rate", "unit_raw": "unit/sec", "unit_si": "unit/sec", "scale_expr": "1"},
+            "decc": {"quantity": "eccentricity_change_rate", "unit_raw": "unit/sec", "unit_si": "unit/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -234,10 +234,10 @@ REGISTRY = {
         outputs=[],
         intermediates=["nose_x_mm", "nose_y_mm", "tail_x_mm", "tail_y_mm"],
         units={
-            "nose_x_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "nose_y_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "tail_x_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "tail_y_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
+            "nose_x_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm"},
+            "nose_y_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm"},
+            "tail_x_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm"},
+            "tail_y_mm": {"quantity": "position", "unit_raw": "mm", "unit_si": "mm"},
         },
         enabled=True,
         save_mode="none",
@@ -251,7 +251,7 @@ REGISTRY = {
         outputs=[],
         intermediates=["theta"],
         units={
-            "theta": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "theta": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="none",
@@ -262,7 +262,7 @@ REGISTRY = {
         requires=["theta"],
         outputs=["dtheta"],
         units={
-            "dtheta": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "dtheta": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -273,7 +273,7 @@ REGISTRY = {
         requires=["dtheta"],
         outputs=["absdtheta"],
         units={
-            "absdtheta": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "absdtheta": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -283,8 +283,8 @@ REGISTRY = {
         requires=["body_scale", "theta", "xy_mm"],
         outputs=["corfrac_maj", "corfrac_min"],
         units={
-            "corfrac_maj": {"quantity": "fractional_offset", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
-            "corfrac_min": {"quantity": "fractional_offset", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "corfrac_maj": {"quantity": "fractional_offset", "unit_raw": "unit", "unit_si": "unit"},
+            "corfrac_min": {"quantity": "fractional_offset", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar"
@@ -294,7 +294,7 @@ REGISTRY = {
         requires=["corfrac", "body_scale", "theta"],
         outputs=["dv_cor"],
         units={
-            "dv_cor": {"quantity": "lateral_velocity_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "dv_cor": {"quantity": "lateral_velocity_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -306,8 +306,7 @@ REGISTRY = {
         outputs=["absdv_cor"],
         units={
             "absdv_cor": {
-                "quantity": "lateral_speed_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1",
-            },
+                "quantity": "lateral_speed_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -317,7 +316,7 @@ REGISTRY = {
         requires=["corfrac", "body_scale", "theta"],
         outputs=["du_cor"],
         units={
-            "du_cor": {"quantity": "forward_velocity_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "du_cor": {"quantity": "forward_velocity_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -328,7 +327,7 @@ REGISTRY = {
         requires=["theta", "xy_mm"],
         outputs=["du_ctr"],
         units={
-            "du_ctr": {"quantity": "forward_velocity_ctr", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "du_ctr": {"quantity": "forward_velocity_ctr", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -339,7 +338,7 @@ REGISTRY = {
         requires=["body_scale", "theta", "xy_mm"],
         outputs=["du_tail"],
         units={
-            "du_tail": {"quantity": "forward_velocity_tail", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "du_tail": {"quantity": "forward_velocity_tail", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -350,7 +349,7 @@ REGISTRY = {
         requires=["theta", "xy_mm"],
         outputs=["dv_ctr"],
         units={
-            "dv_ctr": {"quantity": "sideways_velocity_ctr", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "dv_ctr": {"quantity": "sideways_velocity_ctr", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -361,7 +360,7 @@ REGISTRY = {
         requires=["body_scale", "theta", "dv_ctr"],
         outputs=["dv_tail"],
         units={
-            "dv_tail": {"quantity": "sideways_velocity_tail", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "dv_tail": {"quantity": "sideways_velocity_tail", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -373,7 +372,7 @@ REGISTRY = {
         outputs=[],
         intermediates=["signdtheta"],
         units={
-            "signdtheta": {"quantity": "turn_sign", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "signdtheta": {"quantity": "turn_sign", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="none",
@@ -383,7 +382,7 @@ REGISTRY = {
         requires=["dv_cor", "signdtheta"],
         outputs=["flipdv_cor"],
         units={
-            "flipdv_cor": {"quantity": "signed_lateral_velocity_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "flipdv_cor": {"quantity": "signed_lateral_velocity_cor", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -392,7 +391,7 @@ REGISTRY = {
         func=compute_velmag_ctr,
         requires=["theta", "xy_mm"],
         outputs=["velmag_ctr"],
-        units={"velmag_ctr": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"}},
+        units={"velmag_ctr": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec"}},
         enabled=True,
         save_mode="scalar",
         params={"fps": FPS},
@@ -401,7 +400,7 @@ REGISTRY = {
         func=compute_velmag,
         requires=["corfrac", "body_scale", "theta", "velmag_ctr"],
         outputs=["velmag"],
-        units={"velmag": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"}},
+        units={"velmag": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec"}},
         enabled=True,
         save_mode="scalar",
         params={"fps": FPS},
@@ -410,7 +409,7 @@ REGISTRY = {
         func=compute_velmag_nose,
         requires=["body_scale", "theta", "xy_mm"],
         outputs=["velmag_nose"],
-        units={"velmag_nose": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"}},
+        units={"velmag_nose": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec"}},
         enabled=True,
         save_mode="scalar",
         params={"fps": FPS},
@@ -419,7 +418,7 @@ REGISTRY = {
         func=compute_velmag_tail,
         requires=["body_scale", "theta", "xy_mm"],
         outputs=["velmag_tail"],
-        units={"velmag_tail": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"}},
+        units={"velmag_tail": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec"}},
         enabled=True,
         save_mode="scalar",
         params={"fps": FPS},
@@ -432,7 +431,7 @@ REGISTRY = {
         requires=[],
         outputs=["phi"],
         units={
-            "phi": {"quantity": "velocity_direction", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "phi": {"quantity": "velocity_direction", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -443,7 +442,7 @@ REGISTRY = {
         requires=["phi"],
         outputs=["dphi"],
         units={
-            "dphi": {"quantity": "velocity_direction_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "dphi": {"quantity": "velocity_direction_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -454,7 +453,7 @@ REGISTRY = {
         requires=["phi", "theta"],
         outputs=["phisideways"],
         units={
-            "phisideways": {"quantity": "sideways_angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "phisideways": {"quantity": "sideways_angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -464,7 +463,7 @@ REGISTRY = {
         requires=["phi", "theta"],
         outputs=["yaw"],
         units={
-            "yaw": {"quantity": "yaw_angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "yaw": {"quantity": "yaw_angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -474,7 +473,7 @@ REGISTRY = {
         requires=["yaw"],
         outputs=["absyaw"],
         units={
-            "absyaw": {"quantity": "absolute_yaw_angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "absyaw": {"quantity": "absolute_yaw_angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -487,8 +486,8 @@ REGISTRY = {
         requires=["body_scale", "theta"],
         outputs=["dell2nose", "closestfly_ell2nose"],
         units={
-            "dell2nose": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "closestfly_ell2nose": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "dell2nose": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
+            "closestfly_ell2nose": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar",
@@ -499,9 +498,9 @@ REGISTRY = {
         requires=["body_scale", "theta"],
         outputs=["dnose2ell", "angleonclosestfly", "closestfly_nose2ell"],
         units={
-            "dnose2ell": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "angleonclosestfly": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
-            "closestfly_nose2ell": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "dnose2ell": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
+            "angleonclosestfly": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
+            "closestfly_nose2ell": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar",
@@ -512,8 +511,8 @@ REGISTRY = {
         requires=["body_scale", "theta", "xy_mm"],
         outputs=["anglesub", "closestfly_anglesub"],
         units={
-            "anglesub": {"quantity": "angle","unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
-            "closestfly_anglesub": {"quantity": "index","unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "anglesub": {"quantity": "angle","unit_raw": "rad", "unit_si": "rad"},
+            "closestfly_anglesub": {"quantity": "index","unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar",
@@ -524,7 +523,7 @@ REGISTRY = {
         requires=["anglesub"],
         outputs=["danglesub"],
         units={
-            "danglesub": {"quantity": "angle_change_rate","unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "danglesub": {"quantity": "angle_change_rate","unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -535,8 +534,8 @@ REGISTRY = {
         requires=["xy_mm"],
         outputs=["dcenter", "closestfly_center"],
         units={
-            "dcenter": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "closestfly_center": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "dcenter": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
+            "closestfly_center": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar",
@@ -546,7 +545,7 @@ REGISTRY = {
         requires=["dcenter"],
         outputs=["ddcenter"],
         units={
-            "ddcenter": {"quantity": "distance_change_rate","unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1"},
+            "ddcenter": {"quantity": "distance_change_rate","unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -557,8 +556,8 @@ REGISTRY = {
         requires=["nose_tail_mm"],
         outputs=["dnose2tail", "closestfly_nose2tail"],
         units={
-            "dnose2tail": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "closestfly_nose2tail": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1"},
+            "dnose2tail": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
+            "closestfly_nose2tail": {"quantity": "index", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar",
@@ -568,7 +567,7 @@ REGISTRY = {
         requires=["phi", "anglesub"],
         outputs=["absphidiff_anglesub"],
         units={
-            "absphidiff_anglesub": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "absphidiff_anglesub": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -578,7 +577,7 @@ REGISTRY = {
         requires=["phi", "dnose2ell"],
         outputs=["absphidiff_nose2ell"],
         units={
-            "absphidiff_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "absphidiff_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -588,7 +587,7 @@ REGISTRY = {
         requires=["theta", "anglesub"],
         outputs=["absthetadiff_anglesub"],
         units={
-            "absthetadiff_anglesub": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "absthetadiff_anglesub": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -598,7 +597,7 @@ REGISTRY = {
         requires=["theta", "dnose2ell"],
         outputs=["absthetadiff_nose2ell"],
         units={
-            "absthetadiff_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "absthetadiff_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -608,7 +607,7 @@ REGISTRY = {
         requires=["theta", "nose_tail_mm", "anglesub", "xy_mm"],
         outputs=["anglefrom1to2_anglesub"],
         units={
-            "anglefrom1to2_anglesub": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "anglefrom1to2_anglesub": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -618,7 +617,7 @@ REGISTRY = {
         requires=["theta", "nose_tail_mm", "dnose2ell", "xy_mm"],
         outputs=["anglefrom1to2_nose2ell"],
         units={
-            "anglefrom1to2_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "anglefrom1to2_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -628,7 +627,7 @@ REGISTRY = {
         requires=["anglefrom1to2_nose2ell"],
         outputs=["absanglefrom1to2_nose2ell"],
         units={
-            "absanglefrom1to2_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "absanglefrom1to2_nose2ell": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -638,7 +637,7 @@ REGISTRY = {
         requires=["anglesub", "xy_mm"],
         outputs=["magveldiff_anglesub"],
         units={
-            "magveldiff_anglesub": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1",},
+            "magveldiff_anglesub": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -649,7 +648,7 @@ REGISTRY = {
         requires=["dnose2ell", "xy_mm"],
         outputs=["magveldiff_nose2ell"],
         units={
-            "magveldiff_nose2ell": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1",},
+            "magveldiff_nose2ell": {"quantity": "speed", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -660,7 +659,7 @@ REGISTRY = {
         requires=["anglesub", "xy_mm"],
         outputs=["veltoward_anglesub"],
         units={
-            "veltoward_anglesub": {"quantity": "velocity", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1",},
+            "veltoward_anglesub": {"quantity": "velocity", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -671,7 +670,7 @@ REGISTRY = {
         requires=["dnose2ell", "xy_mm"],
         outputs=["veltoward_nose2ell"],
         units={
-            "veltoward_nose2ell": {"quantity": "velocity", "unit_raw": "mm/sec", "unit_si": "mm/sec", "scale_expr": "1",},
+            "veltoward_nose2ell": {"quantity": "velocity", "unit_raw": "mm/sec", "unit_si": "mm/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -682,7 +681,7 @@ REGISTRY = {
         requires=["body_scale", "xy_mm"],
         outputs=["nflies_close"],
         units={
-            "nflies_close": {"quantity": "count", "unit_raw": "unit", "unit_si": "unit", "scale_expr": "1",},
+            "nflies_close": {"quantity": "count", "unit_raw": "unit", "unit_si": "unit"},
         },
         enabled=True,
         save_mode="scalar",
@@ -697,8 +696,8 @@ REGISTRY = {
         outputs=[],
         intermediates=["wingL", "wingR"],
         units={
-            "wingL": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
-            "wingR": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "wingL": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
+            "wingR": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="none",
@@ -709,7 +708,7 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["mean_wing_angle"],
         units={
-            "mean_wing_angle": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "mean_wing_angle": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -719,7 +718,7 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["wing_angle_diff"],
         units={
-            "wing_angle_diff": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "wing_angle_diff": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -729,7 +728,7 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["wing_angle_imbalance"],
         units={
-            "wing_angle_imbalance": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1",},
+            "wing_angle_imbalance": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -739,8 +738,8 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["min_wing_angle", "max_wing_angle"],
         units={
-             "min_wing_angle": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
-             "max_wing_angle": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+             "min_wing_angle": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
+             "max_wing_angle": {"quantity": "angle", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -753,8 +752,8 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["dmax_wing_angle", "dmin_wing_angle"],
         units={
-            "dmax_wing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
-            "dmin_wing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "dmax_wing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
+            "dmin_wing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -765,8 +764,8 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["min_absdwing_angle", "max_absdwing_angle"],
         units={
-            "min_absdwing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
-            "max_absdwing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "min_absdwing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
+            "max_absdwing_angle": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -777,7 +776,7 @@ REGISTRY = {
         requires=["wing_angle_diff"],
         outputs=["dwing_angle_diff"],
         units={
-            "dwing_angle_diff": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "dwing_angle_diff": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -788,7 +787,7 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["dwing_angle_imbalance"],
         units={
-            "dwing_angle_imbalance": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1",},
+            "dwing_angle_imbalance": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -799,8 +798,8 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["max_dwing_angle_in", "min_dwing_angle_in"],
         units={
-            "max_dwing_angle_in": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
-            "min_dwing_angle_in": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "max_dwing_angle_in": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
+            "min_dwing_angle_in": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -811,8 +810,8 @@ REGISTRY = {
         requires=["wing_angles"],
         outputs=["max_dwing_angle_out", "min_dwing_angle_out"],
         units={
-            "max_dwing_angle_out": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
-            "min_dwing_angle_out": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "max_dwing_angle_out": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
+            "min_dwing_angle_out": {"quantity": "angle_change_rate", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -825,8 +824,8 @@ REGISTRY = {
         requires=["theta"],
         outputs=["front_leg_L_ang", "front_leg_R_ang"],
         units={
-            "front_leg_L_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
-            "front_leg_R_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "front_leg_L_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
+            "front_leg_R_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -839,7 +838,7 @@ REGISTRY = {
         requires=["front_leg_angles"],
         outputs=["front_leg_angle_diff"],
         units={
-            "front_leg_angle_diff": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad", "scale_expr": "1"},
+            "front_leg_angle_diff": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
         },
         enabled=True,
         save_mode="scalar",
@@ -849,8 +848,8 @@ REGISTRY = {
         requires=["front_leg_angles"],
         outputs=["dfront_leg_L", "dfront_leg_R"],
         units={
-            "dfront_leg_L": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
-            "dfront_leg_R": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "dfront_leg_L": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
+            "dfront_leg_R": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -861,8 +860,8 @@ REGISTRY = {
         requires=["dfront_leg_angles"],
         outputs=["abs_dfront_leg_L", "abs_dfront_leg_R"],
         units={
-            "abs_dfront_leg_L": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
-            "abs_dfront_leg_R": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec", "scale_expr": "1"},
+            "abs_dfront_leg_L": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
+            "abs_dfront_leg_R": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
         enabled=True,
         save_mode="scalar",
@@ -872,8 +871,8 @@ REGISTRY = {
         requires=[],
         outputs=["front_leg_ext_L", "front_leg_ext_R"],
         units={
-            "front_leg_ext_L": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
-            "front_leg_ext_R": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm", "scale_expr": "1"},
+            "front_leg_ext_L": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
+            "front_leg_ext_R": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
         },
         enabled=True,
         save_mode="scalar",

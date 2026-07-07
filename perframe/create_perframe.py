@@ -4,48 +4,6 @@ import numpy as np
 import h5py
 from perframe.ds_utils import iter_datasets, safe_savemat
 
-from params import FPS, PXPERMM
-
-def _safe_eval_scale_expr(expr: str, fps: float, pxpermm: float) -> float:
-    """Evaluate a scale expression using fps and pxpermm as variables.
-
-    Supported variables: fps, pxpermm.
-    Supports Python arithmetic operators; ^ is treated as ** (exponentiation).
-
-    Raises:
-        ValueError: if the expression cannot be evaluated, with the
-                    offending expression included in the message.
-    """
-    cleaned = str(expr).strip().replace("^", "**")
-    try:
-        return float(eval(
-            cleaned,
-            {"__builtins__": {}},
-            {"fps": float(fps), "pxpermm": float(pxpermm)},
-        ))
-    except Exception as e:
-        raise ValueError(
-            f"Failed to evaluate scale_expr '{expr}': {e}. "
-            f"Only 'fps' and 'pxpermm' are available as variables."
-        ) from e
-
-
-def _get_scale_from_ds(ds: h5py.Dataset, fps: float | None, pxpermm: float | None) -> float | None:
-    if "scale_expr" not in ds.attrs:
-        return None
-    if fps is None or pxpermm is None:
-        return None
-
-    expr = ds.attrs["scale_expr"]
-    if isinstance(expr, (bytes, np.bytes_)):
-        expr = expr.decode()
-    expr = str(expr).strip()
-    if not expr:
-        return None
-
-    return _safe_eval_scale_expr(expr, fps=fps, pxpermm=pxpermm)
-
-
 def jaaba_units_from_h5_dataset(ds, default_quantity="other"):
     """
     Build JAABA-style units struct:
@@ -53,7 +11,7 @@ def jaaba_units_from_h5_dataset(ds, default_quantity="other"):
       units.den = {'s'} etc.
 
     We read from H5 attributes if present:
-      quantity, unit_raw, unit_si, scale_expr
+      quantity, unit_raw, unit_si
     We only export num/den into MAT (JAABA style).
     """
     # read attributes if exist
@@ -148,7 +106,7 @@ def jaaba_data_cell(values_2d):
     return data_cell
 
 
-def export_perframe(features_h5, perframe_dir, overwrite, convert_units=False) -> None:
+def export_perframe(features_h5, perframe_dir, overwrite) -> None:
     if not features_h5.is_file():
         raise FileNotFoundError(features_h5)
 
@@ -164,16 +122,6 @@ def export_perframe(features_h5, perframe_dir, overwrite, convert_units=False) -
     with h5py.File(features_h5, "r") as f:
         # collect candidate datasets
         all_ds = list(iter_datasets(f))
-
-        fps = FPS
-        pxpermm = PXPERMM
-
-        if "meta" in f:
-            meta = f["meta"]
-            if "fps" in meta:
-                fps = float(meta["fps"][()])
-            if "pxpermm" in meta:
-                pxpermm = float(meta["pxpermm"][()])
 
         # infer (frames, flies) from first 2D dataset anywhere
         n_frames = None
@@ -192,11 +140,6 @@ def export_perframe(features_h5, perframe_dir, overwrite, convert_units=False) -
                 continue
 
             values = ds[:]  # (frames, flies)
-
-            if convert_units:
-                scale = _get_scale_from_ds(ds, fps=fps, pxpermm=pxpermm)
-                if scale is not None:
-                    values = values * scale
 
             data_cell = jaaba_data_cell(values)
             units_struct = jaaba_units_from_h5_dataset(ds)
