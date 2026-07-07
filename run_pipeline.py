@@ -7,11 +7,12 @@ from tkfilebrowser import askopendirnames
 import traceback
 
 from dataset import make_expt_dataset
+from preprocessing import process_file
 from perframe.create_perframe import export_perframe
 from perframe.trx_mat import save_trx
-from params import BASE_PATH, FPS, PXPERMM
+from params import BASE_PATH, FPS, PXPERMM, MAX_GAP_BY_NODE
 
-def main():
+def main(fill_missing: bool = False):
     """
     Entry point for batch extraction of features from SLEAP analysis files.
 
@@ -23,6 +24,12 @@ def main():
     orchestration. Assumes fixed, proofread identities in the input files.
 
     Creates one output file per experiment and reports progress to stdout.
+
+    Args:
+        fill_missing: If True, runs the gap-filling step on each
+            selected experiment's .analysis.h5 before feature extraction,
+            and feature computation uses the filled tracks matrix
+            (tracks_filled) instead of the raw tracks.
 
     Returns:
         None
@@ -55,6 +62,14 @@ def main():
 
         analysis_path = str(analysis_files[0])
 
+        if fill_missing:
+            print("\tFilling missing values in tracking data...")
+            try:
+                process_file(Path(analysis_path), MAX_GAP_BY_NODE, kind="linear")
+            except Exception as e:
+                print(f"\tERROR during fill_missing: {e}")
+                traceback.print_exc()
+
         features_path = analysis_path.replace(".analysis.h5", ".features.h5")
 
         # Stage 1: feature extraction
@@ -67,6 +82,7 @@ def main():
                 overwrite=True,
                 fps=FPS,
                 pxpermm=PXPERMM,
+                use_filled_tracks=fill_missing,
             )
         # except Exception as e:
         #     print(f"\tERROR during feature extraction: {e}")
@@ -101,4 +117,4 @@ def main():
     print("\nDone.")
 
 if __name__ == "__main__":
-    main()
+    main(fill_missing=True)

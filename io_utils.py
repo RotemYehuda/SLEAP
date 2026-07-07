@@ -4,7 +4,7 @@ import numpy as np
 import h5py
 
 
-def load_tracks(track_file):
+def load_tracks(track_file, use_filled: bool = False):
     """Load proofread and exported pose tracks.
     Args:
         track_file: Path to a SLEAP '*.analysis.h5' file containing tracked poses.
@@ -16,7 +16,11 @@ def load_tracks(track_file):
             individuals along the fly axis.
     """
     with h5py.File(track_file, "r") as f:
-        tracks = np.transpose(f["tracks"][:])  # (frame, joint, xy, fly)
+        key = "tracks_filled" if use_filled else "tracks"
+        if use_filled and "tracks_filled" not in f:
+            print(f"\tWARNING: 'tracks_filled' not found in {track_file}, falling back to raw 'tracks'")
+            key = "tracks"
+        tracks = np.transpose(f[key][:])  # (frame, joint, xy, fly)
         track_names = f["track_names"][:]
 
         if tracks.ndim != 4:

@@ -109,7 +109,8 @@ def make_expt_dataset(
     ctr_ind: int = 1,
     fwd_ind: int = 0,
     fps: float | None = None,
-    pxpermm: float | None = None
+    pxpermm: float | None = None,
+    use_filled_tracks: bool = False,
 ) -> str:
     """Gather experiment data into a single file.
 
@@ -126,7 +127,10 @@ def make_expt_dataset(
             to False.
         ctr_ind: Index of centroid joint. Defaults to 1.
         fwd_ind: Index of "forward" joint (e.g., head). Defaults to 0.
-
+        use_filled_tracks: If True, load the gap-filled tracks dataset
+            (`tracks_filled`) produced by the fill_missing step, instead
+             of the raw `tracks` dataset. Falls back to raw tracks
+            with a warning if the file wasn't processed by that stage.
     Returns:
         Path to output dataset.
     """
@@ -153,7 +157,7 @@ def make_expt_dataset(
         return str(output_path)
 
     # Load tracking
-    tracks, node_names, track_names = load_tracks(h5_file)
+    tracks, node_names, track_names = load_tracks(h5_file, use_filled=use_filled_tracks)
     n_frames, n_nodes, _, n_flies = tracks.shape
 
     if n_flies < 1:

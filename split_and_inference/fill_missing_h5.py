@@ -116,7 +116,12 @@ def print_node_summary(Y, Y_filled, mask, node_names):
         )
 
 
-def process_file(h5_path, max_gap_by_node, kind="nearest"):
+def find_analysis_h5(arena_dir):
+    candidate = (arena_dir / OUTPUT_NAME).with_suffix(".analysis.h5")
+    return candidate if candidate.exists() else None
+
+
+def process_file(h5_path, max_gap_by_node, kind="linear"):
     with h5py.File(h5_path, "r") as f:
         raw_tracks = f["tracks"][:]  # (instances, 2, nodes, frames) as stored by SLEAP
         node_names = [n.decode() if isinstance(n, bytes) else n for n in f["node_names"][:]]
@@ -147,3 +152,51 @@ def parse_selection(selection, max_index):
         else:
             selected.add(int(part))
     return [i for i in selected if 1 <= i <= max_index]
+
+
+def main():
+    if not MAX_GAP_BY_NODE:
+        print("ERROR: MAX_GAP_BY_NODE is empty. Please define it in params.py.")
+        return
+
+    arena_dirs = sorted([d for d in ARENA_PARENT_DIR.iterdir() if d.is_dir()])
+
+    if not arena_dirs:
+        print("No arena folders found")
+        return
+
+    print("\nAvailable arena folders:\n")
+    for i, d in enumerate(arena_dirs, start=1):
+        print(f"{i:2d}. {d.name}")
+
+    selection = input(
+        "\nSelect arenas to run (e.g. 1,3,5-7 or ENTER for all): "
+    ).strip()
+
+    if selection:
+        indices = parse_selection(selection, len(arena_dirs))
+        selected_dirs = [arena_dirs[i - 1] for i in indices]
+    else:
+        selected_dirs = arena_dirs
+
+    print(f"\nSelected {len(selected_dirs)} arenas\n")
+
+    for i, arena_dir in enumerate(selected_dirs, start=1):
+        print(f"\nProcessing arena {i}/{len(selected_dirs)}: {arena_dir.name}")
+
+        h5_path = find_analysis_h5(arena_dir)
+        if h5_path is None:
+            print("  No analysis.h5 found, skipping")
+            continue
+
+        try:
+            process_file(h5_path, MAX_GAP_BY_NODE, kind="linear")
+            print(f"  Saved '{FILLED_TRACKS_KEY}' / '{FILLED_MASK_KEY}' into {h5_path.name}")
+        except Exception as e:
+            print(f"  ERROR: {e}")
+
+    print("\nFilling completed")
+
+
+if __name__ == "__main__":
+    main()

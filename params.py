@@ -50,3 +50,9 @@ NODE_IDX_L_FRONT_LEG  = _node_idx("L_frontLeg",  4)
 NODE_IDX_R_FRONT_LEG  = _node_idx("R_frontLeg",  3)
 NODE_IDX_L_MIDDLE_LEG = _node_idx("L_midLeg",    6)
 NODE_IDX_R_MIDDLE_LEG = _node_idx("R_midLeg",    5)
+
+MAX_GAP_BY_NODE = {
+    "default": 15,  # frames left un-filled if the interior gap is longer than this
+    "thorax": 10,
+    "head": 10,
+}
