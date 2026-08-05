@@ -1,7 +1,9 @@
 # Stage 2: Run SLEAP, convert .slp → .analysis.h5
 
 import sys
+import tkinter as tk
 from pathlib import Path
+from tkfilebrowser import askopendirnames
 import subprocess
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -65,20 +67,6 @@ def convert_to_h5(slp_path, analysis_output):
     subprocess.run(cmd, check=True)
 
 
-def parse_selection(selection, max_index):
-    selected = set()
-
-    for part in selection.split(","):
-        part = part.strip()
-        if "-" in part:
-            start, end = part.split("-")
-            selected.update(range(int(start), int(end) + 1))
-        else:
-            selected.add(int(part))
-
-    return [i for i in selected if 1 <= i <= max_index]
-
-
 def main():
     # if CENTROID_MODEL is None or not CENTROID_MODEL.exists():
     #     print(f"ERROR: CENTROID_MODEL is not configured or does not exist: {CENTROID_MODEL}")
@@ -93,27 +81,19 @@ def main():
         print(f"ERROR: BOTTOMUP_MODEL is not configured or does not exist: {BOTTOMUP_MODEL}")
         print("Please set 'bottomup_model' in config.yaml (or BOTTOMUP_MODEL in params.py).")
         return
-    arena_dirs = sorted(
-        [d for d in ARENA_PARENT_DIR.iterdir() if d.is_dir()]
+    root = tk.Tk()
+    root.withdraw()
+
+    selected = askopendirnames(
+        title="Select one or more arena folders",
+        initialdir=str(ARENA_PARENT_DIR)
     )
 
-    if not arena_dirs:
-        print("No arena folders found")
+    if not selected:
+        print("No arena folders selected")
         return
 
-    print("\nAvailable arena folders:\n")
-    for i, d in enumerate(arena_dirs, start=1):
-        print(f"{i:2d}. {d.name}")
-
-    selection = input(
-        "\nSelect arenas to run (e.g. 1,3,5-7 or ENTER for all): "
-    ).strip()
-
-    if selection:
-        indices = parse_selection(selection, len(arena_dirs))
-        selected_dirs = [arena_dirs[i - 1] for i in indices]
-    else:
-        selected_dirs = arena_dirs
+    selected_dirs = sorted(Path(d) for d in selected)
 
     print(f"\nSelected {len(selected_dirs)} arenas\n")
 
