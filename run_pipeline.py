@@ -65,7 +65,7 @@ def main(fill_missing: bool = False):
         if fill_missing:
             print("\tFilling missing values in tracking data...")
             try:
-                process_file(Path(analysis_path), MAX_GAP_BY_NODE, kind="linear")
+                process_file(Path(analysis_path), MAX_GAP_BY_NODE)
             except Exception as e:
                 print(f"\tERROR during fill_missing: {e}")
                 traceback.print_exc()

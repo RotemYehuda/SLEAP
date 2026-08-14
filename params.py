@@ -52,7 +52,11 @@ NODE_IDX_L_MIDDLE_LEG = _node_idx("L_midLeg",    6)
 NODE_IDX_R_MIDDLE_LEG = _node_idx("R_midLeg",    5)
 
 MAX_GAP_BY_NODE = {
-    "default": 15,  # frames left un-filled if the interior gap is longer than this
-    "thorax": 10,
-    "head": 10,
+    "default"   : 15,  # frames left un-filled if the interior gap is longer than this
+    "R_midLeg"  : 5,
+    "L_midLeg"  : 5,
+    "R_hindLeg" : 2,
+    "L_hindLeg" : 2,
+    "thorax"    : 10,
+    "head"      : 10,
 }

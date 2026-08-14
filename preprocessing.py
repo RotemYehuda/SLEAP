@@ -14,7 +14,6 @@ from pathlib import Path
 
 import h5py
 import numpy as np
-from scipy.interpolate import interp1d
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -33,13 +32,14 @@ def get_max_gap(node_name, max_gap_by_node):
     return max_gap_by_node.get(node_name, max_gap_by_node.get("default", None))
 
 
-def fill_missing_1d(y, kind="linear", max_gap=None):
+def fill_missing_1d(y, max_gap=None):
     """
     Fills missing values in a 1D array.
 
-    Interior gaps are linearly interpolated; gaps longer than max_gap are left
-    as NaN instead of being interpolated. Leading/trailing NaNs are filled with
-    the nearest valid value (constant extrapolation), same as SLEAP's original.
+    Interior gaps (valid data on both sides) are linearly interpolated.
+    Leading/trailing gaps (valid data on only one side) are filled with the
+    nearest valid edge value (constant extrapolation). Any gap longer than
+    max_gap is left as NaN, regardless of its position.
 
     Returns (filled_array, was_filled_mask).
     """
@@ -52,11 +52,7 @@ def fill_missing_1d(y, kind="linear", max_gap=None):
         # Not enough real data in this slice to interpolate anything
         return y, np.zeros(n, dtype=bool)
 
-    f = interp1d(x, y[x], kind=kind, fill_value=np.nan, bounds_error=False)
-    missing = np.flatnonzero(np.isnan(y))
-    if len(missing):
-        y[missing] = f(missing)
-
+    too_long = np.zeros(n, dtype=bool)
     if max_gap is not None:
         idx = 0
         while idx < n:
@@ -65,22 +61,34 @@ def fill_missing_1d(y, kind="linear", max_gap=None):
                 while idx < n and not valid[idx]:
                     idx += 1
                 end = idx  # exclusive
-                is_interior = start > 0 and end < n
-                if is_interior and (end - start) > max_gap:
-                    y[start:end] = np.nan
+                if (end - start) > max_gap:
+                    too_long[start:end] = True
             else:
                 idx += 1
 
-    still_missing = np.isnan(y)
-    if still_missing.any() and (~still_missing).any():
-        valid_idx = np.flatnonzero(~still_missing)
-        y[still_missing] = np.interp(np.flatnonzero(still_missing), valid_idx, y[valid_idx])
+    to_fill = ~valid & ~too_long
+
+    interior = to_fill.copy()
+    interior[:x[0]] = False
+    interior[x[-1] + 1:] = False
+    if interior.any():
+        y[interior] = np.interp(np.flatnonzero(interior), x, y[x])
+
+    leading = to_fill.copy()
+    leading[x[0]:] = False
+    if leading.any():
+        y[leading] = y[x[0]]
+
+    trailing = to_fill.copy()
+    trailing[:x[-1] + 1] = False
+    if trailing.any():
+        y[trailing] = y[x[-1]]
 
     was_filled = (~valid) & (~np.isnan(y))
     return y, was_filled
 
 
-def fill_missing(Y, node_names, max_gap_by_node, kind="linear"):
+def fill_missing(Y, node_names, max_gap_by_node):
     """
     Y shape: (frames, nodes, 2, tracks)
     Returns (Y_filled, mask) with the same shape; mask[i] is True where the
@@ -95,7 +103,7 @@ def fill_missing(Y, node_names, max_gap_by_node, kind="linear"):
         for coord_i in range(n_coords):
             for track_i in range(n_tracks):
                 y = Y[:, node_i, coord_i, track_i]
-                y_filled, was_filled = fill_missing_1d(y, kind=kind, max_gap=max_gap)
+                y_filled, was_filled = fill_missing_1d(y, max_gap=max_gap)
                 Y[:, node_i, coord_i, track_i] = y_filled
                 mask[:, node_i, coord_i, track_i] = was_filled
 
@@ -116,14 +124,14 @@ def print_node_summary(Y, Y_filled, mask, node_names):
         )
 
 
-def process_file(h5_path, max_gap_by_node, kind="nearest"):
+def process_file(h5_path, max_gap_by_node):
     with h5py.File(h5_path, "r") as f:
         raw_tracks = f["tracks"][:]  # (instances, 2, nodes, frames) as stored by SLEAP
         node_names = [n.decode() if isinstance(n, bytes) else n for n in f["node_names"][:]]
 
     Y = raw_tracks.T  # (frames, nodes, 2, instances)
 
-    Y_filled, mask = fill_missing(Y, node_names, max_gap_by_node, kind=kind)
+    Y_filled, mask = fill_missing(Y, node_names, max_gap_by_node)
     print_node_summary(Y, Y_filled, mask, node_names)
 
     tracks_filled = Y_filled.T  # back to (instances, 2, nodes, frames)
