@@ -137,7 +137,8 @@ arena_parent_dir: "W:/path/to/analysisData"
 # SLEAP bottom-up model path (used by run_sleap_inference.py).
 bottomup_model:  "W:/path/to/bottomup_model"
 
-# Name of the SLEAP output file produced by inference.
+# Suffix appended to the arena folder name for the SLEAP output file,
+# e.g. arena01_inference.slp
 sleap_output_name: "inference.slp"
 
 # ── Calibration ────────────────────────────────────────────────────────────────

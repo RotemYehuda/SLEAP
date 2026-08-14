@@ -45,7 +45,7 @@ def run_sleap(movie_path, output_path):
         "--tracking_target_instance_count", "2",
         "--post_connect_single_breaks",
         "--tracking_window_size", "5",
-        # "--use_flow",
+        "--use_flow",
         "--features", "keypoints",
         "--scoring_method", "oks",
     ]
@@ -107,7 +107,7 @@ def main():
             print("  No movie found, skipping")
             continue
 
-        output = arena_dir / OUTPUT_NAME
+        output = arena_dir / f"{arena_dir.name}_{OUTPUT_NAME}"
         analysis_output = output.with_suffix(".analysis.h5")
 
         try:
