@@ -3,10 +3,11 @@
 
 base_path: "Q:/Rotem/analysisData/newCam"
 #arena_parent_dir: "Q:/Rotem/analysisData/newCam"
-arena_parent_dir: "Q:/Rotem/diagonalDuoTrax"
+arena_parent_dir: "Q:/Rotem/analysisDataMp4"
 #centroid_model:   "Q:/Rotem/analysisData/currentModel/250717_141735.centroid.n=1104"
 #instance_model:   "Q:/Rotem/analysisData/currentModel/250717_162759.centered_instance.n=1104"
 bottomup_model:   "Q:/Rotem/DuoTrax/newCamModel/models/260607_200002.bottomup.n=700"
+# Suffix appended to the arena folder name, e.g. arena01_inference.slp
 sleap_output_name: "inference.slp"
 
 fps: 30
