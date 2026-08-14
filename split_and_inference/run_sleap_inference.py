@@ -40,6 +40,7 @@ def run_sleap(movie_path, output_path):
         "--output_path", str(output_path),
         "--track_matching_method", "hungarian",
         "--tracking",
+        "--candidates_method", "local_queues",
         "--max_tracks", "2",
         "--tracking_target_instance_count", "2",
         "--post_connect_single_breaks",
@@ -55,10 +56,10 @@ def run_sleap(movie_path, output_path):
 
 def convert_to_h5(slp_path, analysis_output):
     cmd = [
-        "sleap", "convert",
-        "--input", str(slp_path),
+        "sleap-convert",
+        str(slp_path),
         "--output", str(analysis_output),
-        "--to", "analysis_h5",
+        "--format", "analysis",
     ]
 
     print("Converting to H5:")
@@ -114,6 +115,10 @@ def main():
                 print("  Inference (.slp) already exists, skipping sleap-track")
             else:
                 run_sleap(movie, output)
+                if not output.exists():
+                    raise RuntimeError(
+                        f"Inference produced no .slp — check that sleap-nn is installed. ({output})"
+                    )
                 print("  Inference done")
 
             if analysis_output.exists():
