@@ -46,9 +46,10 @@ def main(fill_missing: bool = False):
         print("No experiment folders selected")
         return
 
-    for expt_folder in expt_folders:
+    total_folders = len(expt_folders)
+    for i, expt_folder in enumerate(expt_folders, start=1):
         expt_folder = expt_folder.strip()
-        print(f"\nProcessing experiment folder: {expt_folder}")
+        print(f"\n[{i}/{total_folders}] Processing experiment folder: {expt_folder}")
 
         # Decide which inference file exists
         analysis_files = list(Path(expt_folder).glob("*.analysis.h5"))

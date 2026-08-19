@@ -1,9 +1,8 @@
 # SleapCode configuration
 # All paths, calibration constants, skeleton config
 
-base_path: "Q:/Rotem/analysisData/newCam"
-#arena_parent_dir: "Q:/Rotem/analysisData/newCam"
-arena_parent_dir: "Q:/Rotem/analysisDataMp4"
+base_path: "Q:\\Rotem\\DuoTraxExperiments\\260813"
+arena_parent_dir: "Q:\\Rotem\\DuoTraxExperiments\\260813"
 #centroid_model:   "Q:/Rotem/analysisData/currentModel/250717_141735.centroid.n=1104"
 #instance_model:   "Q:/Rotem/analysisData/currentModel/250717_162759.centered_instance.n=1104"
 bottomup_model:   "Q:/Rotem/DuoTrax/newCamModel/models/260607_200002.bottomup.n=700"
