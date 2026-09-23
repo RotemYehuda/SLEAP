@@ -74,11 +74,11 @@ def save_trx(features_source: Path, trx_dest: Path, timestamps: np.ndarray | Non
                 stored_names = [x.decode() if isinstance(x, (bytes, np.bytes_)) else str(x)
                                 for x in meta["node_names"][:]]
                 node_map = {name: idx for idx, name in enumerate(stored_names)}
-                head_index       = node_map.get("head",    head_index)
-                thorax_index     = node_map.get("thorax",  thorax_index)
-                abdomen_index    = node_map.get("abdomen", abdomen_index)
-                left_wing_index  = node_map.get("L_wing",  left_wing_index)
-                right_wing_index = node_map.get("R_wing",  right_wing_index)
+                head_index       = node_map.get("head",       head_index)
+                thorax_index     = node_map.get("thorax",     thorax_index)
+                abdomen_index    = node_map.get("tail",       abdomen_index)
+                left_wing_index  = node_map.get("left_wing",  left_wing_index)
+                right_wing_index = node_map.get("rghit_wing", right_wing_index)  # name sic
 
         # ----- pose/tracks -----
         if "pose" not in f or "tracks" not in f["pose"]:

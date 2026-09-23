@@ -178,15 +178,13 @@ def make_expt_dataset(
     node_kwargs = {
         "ctr_ind":          node_map["thorax"],
         "fwd_ind":          node_map["head"],
-        "abdomen_idx":      node_map["abdomen"],
-        "left_wing_idx":    node_map["L_wing"],    # compute_ab
-        "right_wing_idx":   node_map["R_wing"],    # compute_ab
-        "leftW_idx":        node_map["L_wing"],    # registry param alias
-        "rightW_idx":       node_map["R_wing"],    # registry param alias
-        "left_ind":         node_map["L_wing"],    # compute_wing_angles
-        "right_ind":        node_map["R_wing"],    # compute_wing_angles
-        "left_front_ind":   node_map["L_frontLeg"],
-        "right_front_ind":  node_map["R_frontLeg"],
+        "abdomen_idx":      node_map["tail"],
+        "left_wing_idx":    node_map["left_wing"],      # compute_ab
+        "right_wing_idx":   node_map["rghit_wing"],     # compute_ab  (name sic)
+        "leftW_idx":        node_map["left_wing"],      # registry param alias
+        "rightW_idx":       node_map["rghit_wing"],     # registry param alias
+        "left_ind":         node_map["left_wing"],      # compute_wing_angles
+        "right_ind":        node_map["rghit_wing"],     # compute_wing_angles
     }
 
     for name in targets:

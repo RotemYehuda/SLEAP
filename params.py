@@ -43,13 +43,13 @@ def _node_idx(name: str, fallback: int) -> int:
 
 NODE_IDX_HEAD         = _node_idx("head",    0)
 NODE_IDX_THORAX       = _node_idx("thorax",  1)
-NODE_IDX_ABDOMEN      = _node_idx("abdomen", 2)
-NODE_IDX_L_WING       = _node_idx("L_wing",     10)
-NODE_IDX_R_WING       = _node_idx("R_wing",      9)
-NODE_IDX_L_FRONT_LEG  = _node_idx("L_frontLeg",  4)
-NODE_IDX_R_FRONT_LEG  = _node_idx("R_frontLeg",  3)
-NODE_IDX_L_MIDDLE_LEG = _node_idx("L_midLeg",    6)
-NODE_IDX_R_MIDDLE_LEG = _node_idx("R_midLeg",    5)
+NODE_IDX_ABDOMEN      = _node_idx("tail",    2)
+NODE_IDX_L_WING       = _node_idx("left_wing",   4)
+NODE_IDX_R_WING       = _node_idx("rghit_wing",  3)  # (sic) misspelled in the SLEAP skeleton
+NODE_IDX_L_FRONT_LEG  = _node_idx("L_frontLeg", -1)
+NODE_IDX_R_FRONT_LEG  = _node_idx("R_frontLeg", -1)
+NODE_IDX_L_MIDDLE_LEG = _node_idx("L_midLeg",   -1)
+NODE_IDX_R_MIDDLE_LEG = _node_idx("R_midLeg",   -1)
 
 MAX_GAP_BY_NODE = {
     "default"   : 15,  # frames left un-filled if the interior gap is longer than this

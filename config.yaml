@@ -13,15 +13,10 @@ fps: 30
 pxpermm: 17.4
 
 # Expected SLEAP skeleton node names, in index order.
+# 5-node skeleton: head, thorax, tail, right_wing, left_wing (no legs).
 node_names_expected:
   - "head"         # index 0 — fwd_ind
   - "thorax"       # index 1 — ctr_ind
-  - "abdomen"      # index 2
-  - "L_wing"       # index 3
-  - "R_wing"       # index 4
-  - "L_frontLeg"   # index 5
-  - "R_frontLeg"   # index 6
-  - "L_midLeg"     # index 7
-  - "R_midLeg"     # index 8
-  - "L_hindLeg"    # index 9
-  - "R_hindLeg"    # index 10
+  - "tail"         # index 2 — posterior node (used as abdomen)
+  - "rghit_wing"   # index 3 — (sic) misspelled in the SLEAP skeleton
+  - "left_wing"    # index 4

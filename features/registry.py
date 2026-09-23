@@ -827,7 +827,7 @@ REGISTRY = {
             "front_leg_L_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
             "front_leg_R_ang": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
         },
-        enabled=True,
+        enabled=False,  # no front-leg nodes in this skeleton
         save_mode="scalar",
         params={"ctr_ind": NODE_IDX_THORAX,
                 "left_front_ind": NODE_IDX_L_FRONT_LEG,
@@ -840,7 +840,7 @@ REGISTRY = {
         units={
             "front_leg_angle_diff": {"quantity": "orientation", "unit_raw": "rad", "unit_si": "rad"},
         },
-        enabled=True,
+        enabled=False,  # no front-leg nodes in this skeleton
         save_mode="scalar",
     ),
     "dfront_leg_angles": FeatureSpec(
@@ -851,7 +851,7 @@ REGISTRY = {
             "dfront_leg_L": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
             "dfront_leg_R": {"quantity": "angular_velocity", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
-        enabled=True,
+        enabled=False,  # no front-leg nodes in this skeleton
         save_mode="scalar",
         params={"fps": FPS},
     ),
@@ -863,7 +863,7 @@ REGISTRY = {
             "abs_dfront_leg_L": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
             "abs_dfront_leg_R": {"quantity": "angular_speed", "unit_raw": "rad/sec", "unit_si": "rad/sec"},
         },
-        enabled=True,
+        enabled=False,  # no front-leg nodes in this skeleton
         save_mode="scalar",
     ),
     "front_leg_extension": FeatureSpec(
@@ -874,7 +874,7 @@ REGISTRY = {
             "front_leg_ext_L": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
             "front_leg_ext_R": {"quantity": "distance", "unit_raw": "mm", "unit_si": "mm"},
         },
-        enabled=True,
+        enabled=False,  # no front-leg nodes in this skeleton
         save_mode="scalar",
         params={"ctr_ind": NODE_IDX_THORAX,
                 "left_front_ind": NODE_IDX_L_FRONT_LEG,

@@ -4,8 +4,8 @@ import numpy as np
 
 # heading relative to x-axis in radians [-pi, pi]
 def compute_theta(tracks, features=None, ctr_ind=1, fwd_ind=0, **kwargs):
-    delta = tracks[:,fwd_ind,:,:] - tracks[:,ctr_ind,:,:]
-    theta = np.arctan2(delta[:,:,1], delta[:,:,0])
+    delta = tracks[:,fwd_ind,:,:] - tracks[:,ctr_ind,:,:]   # (n_frames, 2_xy, n_flies)
+    theta = np.arctan2(delta[:,1,:], delta[:,0,:])          # (n_frames, n_flies)
 
     return {
         "theta": theta.astype(np.float64),
