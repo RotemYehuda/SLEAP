@@ -68,7 +68,46 @@ def convert_to_h5(slp_path, analysis_output):
     subprocess.run(cmd, check=True)
 
 
-def main():
+def regenerate_from_slp(arena_dirs):
+    """Rebuild .analysis.h5 and all Stage 3 outputs from an existing (corrected) .slp."""
+    from run_pipeline import process_expt_folder
+
+    missing = []
+    for movie_num, arena_dir in enumerate(arena_dirs, start=1):
+        print()
+        print(f"Regenerating {movie_num}/{len(arena_dirs)}: {arena_dir.name}")
+
+        slp_path = arena_dir / f"{arena_dir.name}_{OUTPUT_NAME}"
+        if not slp_path.exists():
+            print(f"  Missing {slp_path.name}, skipping")
+            missing.append(arena_dir.name)
+            continue
+
+        analysis_output = slp_path.with_suffix(".analysis.h5")
+        features_h5 = analysis_output.with_name(
+            analysis_output.name.replace(".analysis.h5", ".features.h5")
+        )
+        stale = [analysis_output, features_h5, arena_dir / "trx.mat",
+                 *(arena_dir / "perframe").glob("*.mat"),
+                 *arena_dir.glob("*_inference.scores.h5")]
+        for p in stale:
+            p.unlink(missing_ok=True)
+        print(f"  Deleted stale outputs ({len(stale)} paths checked)")
+
+        try:
+            convert_to_h5(slp_path, analysis_output)
+        except subprocess.CalledProcessError as e:
+            print(f"  ERROR: {e}")
+            continue
+        print("  H5 conversion done")
+
+        process_expt_folder(str(arena_dir), fill_missing=True)
+
+    if missing:
+        print(f"\nSkipped {len(missing)} folder(s) with no .slp: {', '.join(missing)}")
+
+
+def main(from_slp: bool = False):
     # if CENTROID_MODEL is None or not CENTROID_MODEL.exists():
     #     print(f"ERROR: CENTROID_MODEL is not configured or does not exist: {CENTROID_MODEL}")
     #     print("Please set 'centroid_model' in config.yaml (or CENTROID_MODEL in params.py).")
@@ -78,7 +117,7 @@ def main():
     #     print("Please set 'instance_model' in config.yaml (or INSTANCE_MODEL in params.py).")
     #     return
 
-    if BOTTOMUP_MODEL is None or not BOTTOMUP_MODEL.exists():
+    if not from_slp and (BOTTOMUP_MODEL is None or not BOTTOMUP_MODEL.exists()):
         print(f"ERROR: BOTTOMUP_MODEL is not configured or does not exist: {BOTTOMUP_MODEL}")
         print("Please set 'bottomup_model' in config.yaml (or BOTTOMUP_MODEL in params.py).")
         return
@@ -97,6 +136,11 @@ def main():
     selected_dirs = sorted(Path(d) for d in selected)
 
     print(f"\nSelected {len(selected_dirs)} arenas\n")
+
+    if from_slp:
+        regenerate_from_slp(selected_dirs)
+        print("\nRegeneration completed")
+        return
 
     for movie_num, arena_dir in enumerate(selected_dirs, start=1):
         print()
@@ -133,4 +177,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(from_slp="--from-slp" in sys.argv)
